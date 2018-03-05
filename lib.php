@@ -29,8 +29,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2018 Baptiste Desprez
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class enrol_extendedguest_plugin extends enrol_plugin
-{
+class enrol_extendedguest_plugin extends enrol_plugin {
 
     /**
      * Returns optional enrolment information icons.
@@ -44,13 +43,12 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param array $instances all enrol instances of this type in one course
      * @return array of pix_icon or empty if none
      */
-    public function get_info_icons(array $instances)
-    {
+    public function get_info_icons(array $instances) {
         $config = get_config('enrol_extendedguest');
 
         foreach ($instances as $instance) {
             if ($instance->customint1 == '1') {
-                if (enrol_extendedguest_plugin::ip_in_range($_SERVER['REMOTE_ADDR'], $config->extendedguest_list_ip) === true) {
+                if (self::ip_in_range($_SERVER['REMOTE_ADDR'], $config->extendedguest_list_ip) === true) {
                     return array(new pix_icon('withoutpassword', get_string('guestaccess_withoutpassword', 'enrol_extendedguest'), 'enrol_extendedguest'));
                 }
             }
@@ -76,8 +74,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param null $status
      * @param null $recovergrades
      */
-    public function enrol_user(stdClass $instance, $userid, $roleid = null, $timestart = 0, $timeend = 0, $status = null, $recovergrades = null)
-    {
+    public function enrol_user(stdClass $instance, $userid, $roleid = null, $timestart = 0, $timeend = 0, $status = null, $recovergrades = null) {
         // Nothing to do, we never enrol here!
         return;
     }
@@ -88,8 +85,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param stdClass $instance
      * @param int $userid
      */
-    public function unenrol_user(stdClass $instance, $userid)
-    {
+    public function unenrol_user(stdClass $instance, $userid) {
         // Nothing to do, we never enrol here!
         return;
     }
@@ -101,14 +97,13 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param stdClass $instance course enrol instance
      * @return bool|int false means no guest access, integer means end of cached time
      */
-    public function try_guestaccess(stdClass $instance)
-    {
+    public function try_guestaccess(stdClass $instance) {
         global $CFG;
 
         $config = get_config('enrol_extendedguest');
 
         if ($instance->customint1 == '1') {
-            if (enrol_extendedguest_plugin::ip_in_range($_SERVER['REMOTE_ADDR'], $config->extendedguest_list_ip) === true) {
+            if (self::ip_in_range($_SERVER['REMOTE_ADDR'], $config->extendedguest_list_ip) === true) {
                 $context = context_course::instance($instance->courseid);
                 load_temp_course_role($context, $CFG->guestroleid);
                 return ENROL_MAX_TIMESTAMP;
@@ -132,8 +127,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param stdClass $instance
      * @return bool
      */
-    public function can_delete_instance($instance)
-    {
+    public function can_delete_instance($instance) {
         $context = context_course::instance($instance->courseid);
         return has_capability('enrol/extendedguest:config', $context);
     }
@@ -144,8 +138,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param stdClass $instance (null is accepted too)
      * @return string
      */
-    public function get_instance_name($instance)
-    {
+    public function get_instance_name($instance) {
         global $DB;
 
         if (empty($instance)) {
@@ -165,8 +158,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param int $courseid
      * @return bool
      */
-    public function can_add_instance($courseid)
-    {
+    public function can_add_instance($courseid) {
         global $DB;
         $coursecontext = context_course::instance($courseid);
         if (!has_capability('moodle/course:enrolconfig', $coursecontext) or ! has_capability('enrol/extendedguest:config', $coursecontext)) {
@@ -188,8 +180,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param stdClass $data form data
      * @return void
      */
-    public function course_updated($inserted, $course, $data)
-    {
+    public function course_updated($inserted, $course, $data) {
         global $DB;
 
         if ($inserted) {
@@ -222,12 +213,11 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param stdClass $course
      * @param int $oldid
      */
-    public function restore_instance(restore_enrolments_structure_step $step, stdClass $data, $course, $oldid)
-    {
+    public function restore_instance(restore_enrolments_structure_step $step, stdClass $data, $course, $oldid) {
         global $DB;
 
         if (!$DB->record_exists('enrol', array('courseid' => $data->courseid, 'enrol' => $this->get_name()))) {
-            $this->add_instance($course, (array)$data);
+            $this->add_instance($course, (array) $data);
         }
 
         // No need to set mapping, we do not restore users or roles here.
@@ -240,8 +230,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param stdClass $instance
      * @return bool
      */
-    public function can_hide_show_instance($instance)
-    {
+    public function can_hide_show_instance($instance) {
         $context = context_course::instance($instance->courseid);
         return has_capability('enrol/extendedguest:config', $context);
     }
@@ -251,8 +240,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      *
      * @return array
      */
-    protected function get_status_options()
-    {
+    protected function get_status_options() {
         $options = array(ENROL_INSTANCE_ENABLED => get_string('yes'), ENROL_INSTANCE_DISABLED => get_string('no'));
         return $options;
     }
@@ -262,8 +250,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      *
      * @return array
      */
-    protected function get_options()
-    {
+    protected function get_options() {
         $options = array(
             0 => get_string('no'),
             1 => get_string('yes'),
@@ -276,8 +263,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      *
      * @return boolean
      */
-    public function use_standard_editing_ui()
-    {
+    public function use_standard_editing_ui() {
         return true;
     }
 
@@ -289,8 +275,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param context $context
      * @return bool
      */
-    public function edit_instance_form($instance, MoodleQuickForm $mform, $context)
-    {
+    public function edit_instance_form($instance, MoodleQuickForm $mform, $context) {
         global $DB;
 
         $options = $this->get_status_options();
@@ -314,8 +299,7 @@ class enrol_extendedguest_plugin extends enrol_plugin
      *         or an empty array if everything is OK.
      * @return void
      */
-    public function edit_instance_validation($data, $files, $instance, $context)
-    {
+    public function edit_instance_validation($data, $files, $instance, $context) {
         $errors = array();
 
         $validstatus  = array_keys($this->get_status_options());
@@ -338,13 +322,12 @@ class enrol_extendedguest_plugin extends enrol_plugin
      * @param  string $range IP/CIDR netmask eg. 127.0.0.0/24, also 127.0.0.1 is accepted and /32 assumed
      * @return boolean true if the ip is in this range / false if not.
      */
-    public static function ip_in_range($ip, $range)
-    {
+    public static function ip_in_range($ip, $range) {
         if (strpos($range, ',') !== false) {
-            $list_range = explode(',', $range);
-            foreach ($list_range as $single_range) {
-                $single_range = trim($single_range);
-                if (enrol_extendedguest_plugin::ip_in_range($ip, $single_range)) {
+            $listRange = explode(',', $range);
+            foreach ($listRange as $singleRange) {
+                $singleRange = trim($singleRange);
+                if (self::ip_in_range($ip, $singleRange)) {
                     return true;
                 }
             }
@@ -355,13 +338,17 @@ class enrol_extendedguest_plugin extends enrol_plugin
         if (strpos($range, '/') === false) {
             $range .= '/32';
         }
-        // $range is in IP/CIDR format eg 127.0.0.1/24
+
+        if (preg_match("/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(\/[0-9]{1,2})?$/", $range) === 0) {
+            return false;
+        }
+
         list( $range, $netmask ) = explode('/', $range, 2);
-        $range_decimal    = ip2long($range);
-        $ip_decimal       = ip2long($ip);
-        $wildcard_decimal = pow(2, ( 32 - $netmask)) - 1;
-        $netmask_decimal  = ~ $wildcard_decimal;
-        return ( ( $ip_decimal & $netmask_decimal ) == ( $range_decimal & $netmask_decimal ) );
+        $rangeDecimal    = ip2long($range);
+        $ipDecimal       = ip2long($ip);
+        $wildcardDecimal = pow(2, ( 32 - $netmask)) - 1;
+        $netmaskDecimal  = ~ $wildcardDecimal;
+        return ( ( $ipDecimal & $netmaskDecimal ) == ( $rangeDecimal & $netmaskDecimal ) );
     }
 }
 
