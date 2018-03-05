@@ -324,10 +324,10 @@ class enrol_extendedguest_plugin extends enrol_plugin {
      */
     public static function ip_in_range($ip, $range) {
         if (strpos($range, ',') !== false) {
-            $listRange = explode(',', $range);
-            foreach ($listRange as $singleRange) {
-                $singleRange = trim($singleRange);
-                if (self::ip_in_range($ip, $singleRange)) {
+            $listrange = explode(',', $range);
+            foreach ($listrange as $singlerange) {
+                $singlerange = trim($singlerange);
+                if (self::ip_in_range($ip, $singlerange)) {
                     return true;
                 }
             }
@@ -344,11 +344,11 @@ class enrol_extendedguest_plugin extends enrol_plugin {
         }
 
         list( $range, $netmask ) = explode('/', $range, 2);
-        $rangeDecimal    = ip2long($range);
-        $ipDecimal       = ip2long($ip);
-        $wildcardDecimal = pow(2, ( 32 - $netmask)) - 1;
-        $netmaskDecimal  = ~ $wildcardDecimal;
-        return ( ( $ipDecimal & $netmaskDecimal ) == ( $rangeDecimal & $netmaskDecimal ) );
+        $rangedecimal    = ip2long($range);
+        $ipdecimal       = ip2long($ip);
+        $wildcarddecimal = pow(2, ( 32 - $netmask)) - 1;
+        $netmaskdecimal  = ~ $wildcarddecimal;
+        return ( ( $ipdecimal & $netmaskdecimal ) == ( $rangedecimal & $netmaskdecimal ) );
     }
 }
 
