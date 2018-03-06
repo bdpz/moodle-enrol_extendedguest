@@ -1,7 +1,7 @@
 # Extended Guest Access
 
 ## What is it?
-The "Extended guest access" enrolment plugin extends the guest access to courses. You can grant anonymous access to specific IP, network or to a connected user.
+The "Extended guest access" enrolment plugin extends the guest access to courses. You can grant anonymous access to specific IP, network or to logged users.
 
 ## Why ?
 Our Moodle instance is used as a course catalog and students need to see what's in the courses in order to make their choice, or simply have the possibility to see more pedagogical content than the courses they are enrolled.
