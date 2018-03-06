@@ -49,13 +49,15 @@ class enrol_extendedguest_plugin extends enrol_plugin {
         foreach ($instances as $instance) {
             if ($instance->customint1 == '1') {
                 if (self::ip_in_range($_SERVER['REMOTE_ADDR'], $config->extendedguest_list_ip) === true) {
-                    return array(new pix_icon('withoutpassword', get_string('guestaccess_withoutpassword', 'enrol_extendedguest'), 'enrol_extendedguest'));
+                    return array(new pix_icon('withoutpassword',
+                        get_string('guestaccess_withoutpassword', 'enrol_extendedguest'), 'enrol_extendedguest'));
                 }
             }
 
             if ($instance->customint2 == '1') {
                 if (isloggedin() && !isguestuser()) {
-                    return array(new pix_icon('withoutpassword', get_string('guestaccess_withoutpassword', 'enrol_extendedguest'), 'enrol_extendedguest'));
+                    return array(new pix_icon('withoutpassword',
+                        get_string('guestaccess_withoutpassword', 'enrol_extendedguest'), 'enrol_extendedguest'));
                 }
             }
 
@@ -74,7 +76,8 @@ class enrol_extendedguest_plugin extends enrol_plugin {
      * @param null $status
      * @param null $recovergrades
      */
-    public function enrol_user(stdClass $instance, $userid, $roleid = null, $timestart = 0, $timeend = 0, $status = null, $recovergrades = null) {
+    public function enrol_user(stdClass $instance, $userid, $roleid = null,
+        $timestart = 0, $timeend = 0, $status = null, $recovergrades = null) {
         // Nothing to do, we never enrol here!
         return;
     }
@@ -161,7 +164,8 @@ class enrol_extendedguest_plugin extends enrol_plugin {
     public function can_add_instance($courseid) {
         global $DB;
         $coursecontext = context_course::instance($courseid);
-        if (!has_capability('moodle/course:enrolconfig', $coursecontext) or ! has_capability('enrol/extendedguest:config', $coursecontext)) {
+        if (!has_capability('moodle/course:enrolconfig', $coursecontext)
+            or ! has_capability('enrol/extendedguest:config', $coursecontext)) {
             return false;
         }
 
