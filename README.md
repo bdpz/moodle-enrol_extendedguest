@@ -14,4 +14,3 @@ By default, all options are activated so all your new courses will have this plu
 I have used those works in order to build this module :
 - Moodle module "Guest Cohort" https://github.com/abautu/moodle-enrol_guestcohort by Andrei Bautu
 - Integrated Moodle module "Guest Access"
-- Function ip_in_range() based on https://gist.github.com/tott/7684443 by Thorsten Ott
