@@ -36,7 +36,7 @@ if ($ADMIN->fulltree) {
         get_string('status', 'enrol_extendedguest'),
         get_string('status_desc', 'enrol_extendedguest'), ENROL_INSTANCE_DISABLED, $options));
 
-    $settings->add(new admin_setting_configtext('enrol_extendedguest/extendedguest_list_ip',
+    $settings->add(new admin_setting_configiplist('enrol_extendedguest/extendedguest_list_ip',
         get_string('settings_list_ip', 'enrol_extendedguest'), get_string('settings_list_ip_helptext', 'enrol_extendedguest'), ''));
 
     $settings->add(new admin_setting_configcheckbox('enrol_extendedguest/localnet',

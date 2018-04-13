@@ -48,7 +48,7 @@ class enrol_extendedguest_plugin extends enrol_plugin {
 
         foreach ($instances as $instance) {
             if ($instance->customint1 == '1') {
-                if (self::ip_in_range($_SERVER['REMOTE_ADDR'], $config->extendedguest_list_ip) === true) {
+                if (remoteip_in_list($config->extendedguest_list_ip)) {
                     return array(new pix_icon('withoutpassword',
                         get_string('guestaccess_withoutpassword', 'enrol_extendedguest'), 'enrol_extendedguest'));
                 }
@@ -106,7 +106,7 @@ class enrol_extendedguest_plugin extends enrol_plugin {
         $config = get_config('enrol_extendedguest');
 
         if ($instance->customint1 == '1') {
-            if (self::ip_in_range($_SERVER['REMOTE_ADDR'], $config->extendedguest_list_ip) === true) {
+            if (remoteip_in_list($config->extendedguest_list_ip)) {
                 $context = context_course::instance($instance->courseid);
                 load_temp_course_role($context, $CFG->guestroleid);
                 return ENROL_MAX_TIMESTAMP;
@@ -320,40 +320,6 @@ class enrol_extendedguest_plugin extends enrol_plugin {
         return $errors;
     }
 
-    /**
-     * Check if a given ip is in a network
-     * @param  string $ip    IP to check in IPV4 format eg. 127.0.0.1
-     * @param  string $range IP/CIDR netmask eg. 127.0.0.0/24, also 127.0.0.1 is accepted and /32 assumed
-     * @return boolean true if the ip is in this range / false if not.
-     */
-    public static function ip_in_range($ip, $range) {
-        if (strpos($range, ',') !== false) {
-            $listrange = explode(',', $range);
-            foreach ($listrange as $singlerange) {
-                $singlerange = trim($singlerange);
-                if (self::ip_in_range($ip, $singlerange)) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        if (strpos($range, '/') === false) {
-            $range .= '/32';
-        }
-
-        if (preg_match("/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(\/[0-9]{1,2})?$/", $range) === 0) {
-            return false;
-        }
-
-        list( $range, $netmask ) = explode('/', $range, 2);
-        $rangedecimal    = ip2long($range);
-        $ipdecimal       = ip2long($ip);
-        $wildcarddecimal = pow(2, ( 32 - $netmask)) - 1;
-        $netmaskdecimal  = ~ $wildcarddecimal;
-        return ( ( $ipdecimal & $netmaskdecimal ) == ( $rangedecimal & $netmaskdecimal ) );
-    }
 }
 
 /**
