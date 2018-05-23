@@ -31,3 +31,4 @@ $string['authenticated_users'] = 'Allow guest access to authenticated users ?';
 $string['settings_list_ip'] = 'Allowed IP list';
 $string['settings_list_ip_helptext'] = 'Put every entry on one line. Valid entries are either full IP address (such as <b>192.168.10.1</b>) which matches a single host; or partial address (such as <b>192.168</b>) which matches any address starting with those numbers; or CIDR notation (such as <b>231.54.211.0/20</b>); or a range of IP addresses (such as <b>231.3.56.10-20</b>) where the range applies to the last part of the address. Text domain names (like \'example.com\') are not supported. Blank lines are ignored.';
 $string['guestaccess_withoutpassword'] = 'Extended guest access';
+$string['privacy:metadata'] = 'The Extended guest access plugin does not store any personal data.';

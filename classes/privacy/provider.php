@@ -15,17 +15,33 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Guest IP enrolment plugin version specification.
+ * Extended Guest Access enrolment plugin.
  *
  * @package    enrol_extendedguest
  * @copyright  2018 Baptiste Desprez
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace enrol_extendedguest\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2018052300;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2016052300;        // Requires this Moodle version.
-$plugin->release   = '1.0';
-$plugin->component = 'enrol_extendedguest';    // Full name of the plugin (used for diagnostics).
-$plugin->maturity = MATURITY_STABLE;
+/**
+ * Privacy Subsystem implementing null_provider.
+ *
+ * @package    enrol_extendedguest
+ * @copyright  2018 Baptiste Desprez
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}
