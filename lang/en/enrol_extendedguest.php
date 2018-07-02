@@ -22,6 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['extendedguest:config'] = 'Configure extended guest access instances';
 $string['pluginname'] = 'Extended guest access';
 $string['pluginname_desc'] = 'This plugin gives guest access to specific IP, networks or authentified users.';
 $string['status'] = 'Enable extended guest access';
