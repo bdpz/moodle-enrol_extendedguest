@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['extendedguest:config'] = 'Configurer les instances de l\'Accès anonyme étendu';
+$string['extendedguest:config'] = 'Configurer les métodes d\'accès anonyme étendu';
 $string['pluginname'] = 'Accès anonyme étendu';
 $string['pluginname_desc'] = 'Ce plugin permet d\'ouvrir l\'accès à un cours sur le réseau d\'entreprise ou pour les utilisateurs authentifiés.';
 $string['status'] = 'Permettre l\'accès anonyme étendu';
